@@ -1,0 +1,10 @@
+/*
+  Deprecated: superseded by ./blue-slate.css, per the blue.slate/starter-packs
+  contract ("place the theme under src/styles/blue-slate.css"). The full
+  Aptlantis Blue-Slate theme and shared component styles now live there.
+
+  Kept only as a redirect since this session's tools can't rename/delete
+  files on disk — safe to delete src/styles/theme.css by hand once nothing
+  imports it (main.tsx already imports blue-slate.css directly).
+*/
+@import "./blue-slate.css";

@@ -1,0 +1,57 @@
+[manifest]
+schema = "APTlantis Entity Manifest"
+schema_version = "2.4"
+manifest_type = "project"
+canonical_name = "CodeNote.manifest.toml"
+last_updated = "2026-07-25"
+maintainer = "Herb"
+
+[entity]
+id = "codenote"
+title = "CodeNote"
+kind = "project"
+class = "project"
+status = "active"
+description = "Lightweight Tauri desktop markdown and text editor with live preview, code highlighting, diagrams, tabs, and an optional terminal drawer."
+tags = ["desktop", "tauri", "markdown", "editor", "react"]
+
+[project]
+type = "desktop-application"
+portfolio_class = "project"
+stage = "prototype"
+version = "0.1.0"
+
+[governance]
+primary_standard = "DRS"
+primary_standard_path = "D:\\.library\\aptlantis_core\\DRS\\README.md"
+additional_standards = ["WGS", "PPS", "Blue Slate"]
+additional_standard_paths = ["D:\\.library\\aptlantis_core\\WGS\\README.md", "D:\\.library\\aptlantis_core\\PPS\\README.md", "D:\\.library\\aptlantis_core\\blue.slate\\README.md"]
+inherits_from = "..\\DRS.manifest.toml"
+
+[paths]
+root = "D:\\DRS\\CodeNote"
+docs = "."
+source = "src"
+artifacts = "dist"
+
+[relationships]
+parent = "D:\\DRS"
+child_projects = []
+child_containers = []
+related_directories = ["src-tauri", "public"]
+
+[verification]
+level = "metadata-reconciled"
+evidence = "README.md, SPEC.md, package files, and Tauri source directories"
+reviewed = "2026-07-25"
+build_verified = false
+tests_verified = false
+artifact_verified = false
+release_verified = false
+documentation_verified = true
+notes = "The previous codenote.manifest.toml contained a schema document; this record restores the project manifest expected by WGS audit tooling."
+
+[agent]
+read_first = ["AGENTS.md", "CodeNote.manifest.toml", "Project-README.md", "README.md", "SPEC.md"]
+safe_to_modify = true
+notes = "Use DRS for desktop release behavior and Blue Slate for the documented visual palette."

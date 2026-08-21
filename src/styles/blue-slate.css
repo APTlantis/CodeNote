@@ -1,0 +1,629 @@
+@import "tailwindcss";
+
+/*
+  Aptlantis Blue-Slate Tailwind Theme
+  Dark archival technical palette derived from the SGML / Aptlantis logo.
+
+  Tailwind v4 CSS-first theme file.
+  Import this as your main Tailwind input CSS, or import it from app.css.
+
+  This is CodeNote's app-local copy of the shared blue-slate theme, per the
+  starter-pack contract (blue.slate/starter-packs README): "For app-local
+  copies, place the theme under src/styles/blue-slate.css and import it from
+  src/main.css." (main.tsx plays that role here.) It also carries the shared
+  blue-slate component styles — atl-tabs, atl-status-chip, atl-code,
+  atl-command-builder, atl-evidence-grid — that back the components under
+  src/components/blue-slate/.
+
+  Design intent:
+  - dark midnight/navy canvas
+  - blue-slate steel surfaces
+  - pale archive text
+  - restrained cyan glow
+  - procedural, archival, maritime, technical
+*/
+
+@theme {
+  /* Raw palette */
+  --color-atl-void: #050913;
+  --color-atl-deep: #0B1728;
+  --color-atl-abyss: #172536;
+  --color-atl-slate: #262F39;
+  --color-atl-iron: #40423F;
+  --color-atl-navy: #192E46;
+  --color-atl-steel: #29384A;
+  --color-atl-ridge: #36485A;
+  --color-atl-smoke: #53606A;
+  --color-atl-stone: #7E827E;
+  --color-atl-bluegray: #627786;
+  --color-atl-mist: #768892;
+  --color-atl-frost: #98A2A2;
+  --color-atl-silver: #B9C9C5;
+  --color-atl-archive: #E1E7DB;
+
+  /* Semantic colors */
+  --color-atl-bg: var(--color-atl-void);
+  --color-atl-bg-soft: var(--color-atl-deep);
+  --color-atl-panel: var(--color-atl-abyss);
+  --color-atl-panel-2: var(--color-atl-slate);
+  --color-atl-panel-blue: var(--color-atl-navy);
+  --color-atl-border: var(--color-atl-ridge);
+  --color-atl-border-soft: color-mix(in oklab, var(--color-atl-ridge) 58%, transparent);
+  --color-atl-text: var(--color-atl-archive);
+  --color-atl-text-soft: var(--color-atl-silver);
+  --color-atl-text-muted: var(--color-atl-frost);
+  --color-atl-link: var(--color-atl-silver);
+  --color-atl-accent: var(--color-atl-mist);
+  --color-atl-accent-strong: var(--color-atl-archive);
+  --color-atl-success: #8FBFA7;
+  --color-atl-warning: #D7C58A;
+  --color-atl-danger: #D48E8E;
+
+  /* Fonts: system-safe defaults, no external font dependency */
+  --font-atl-display: "Aptos Display", "Segoe UI Variable Display", "Segoe UI", system-ui, sans-serif;
+  --font-atl-sans: "Aptos", "Segoe UI Variable Text", "Segoe UI", system-ui, sans-serif;
+  --font-atl-mono: "Cascadia Code", "Cascadia Mono", "JetBrains Mono", "SFMono-Regular", Consolas, monospace;
+
+  /* Presentation/UI sizing */
+  --radius-atl-sm: 0.375rem;
+  --radius-atl-md: 0.625rem;
+  --radius-atl-lg: 0.875rem;
+  --radius-atl-xl: 1.25rem;
+
+  --shadow-atl-panel: 0 20px 70px rgb(0 0 0 / 0.32), inset 0 1px 0 rgb(225 231 219 / 0.07);
+  --shadow-atl-glow: 0 0 0 1px rgb(185 201 197 / 0.18), 0 0 26px rgb(118 136 146 / 0.24);
+}
+
+@layer base {
+  :root {
+    color-scheme: dark;
+
+    /* App-level aliases for non-Tailwind CSS and JS consumers */
+    --atl-bg: var(--color-atl-bg);
+    --atl-bg-soft: var(--color-atl-bg-soft);
+    --atl-panel: var(--color-atl-panel);
+    --atl-panel-2: var(--color-atl-panel-2);
+    --atl-border: var(--color-atl-border);
+    --atl-text: var(--color-atl-text);
+    --atl-text-soft: var(--color-atl-text-soft);
+    --atl-text-muted: var(--color-atl-text-muted);
+    --atl-accent: var(--color-atl-accent);
+    --atl-accent-strong: var(--color-atl-accent-strong);
+  }
+
+  html {
+    background: var(--color-atl-bg);
+  }
+
+  body {
+    min-height: 100vh;
+    background:
+      radial-gradient(circle at 22% 8%, rgb(98 119 134 / 0.18), transparent 34rem),
+      radial-gradient(circle at 78% 18%, rgb(118 136 146 / 0.11), transparent 30rem),
+      linear-gradient(180deg, var(--color-atl-void) 0%, var(--color-atl-deep) 58%, var(--color-atl-void) 100%);
+    color: var(--color-atl-text);
+    font-family: var(--font-atl-sans);
+    text-rendering: optimizeLegibility;
+  }
+
+  ::selection {
+    background: color-mix(in oklab, var(--color-atl-silver) 42%, transparent);
+    color: var(--color-atl-void);
+  }
+
+  a {
+    color: var(--color-atl-link);
+    text-underline-offset: 0.22em;
+    text-decoration-color: color-mix(in oklab, var(--color-atl-mist) 70%, transparent);
+  }
+
+  code,
+  kbd,
+  samp,
+  pre {
+    font-family: var(--font-atl-mono);
+  }
+}
+
+@layer components {
+  .atl-shell {
+    min-height: 100vh;
+    background:
+      linear-gradient(rgb(225 231 219 / 0.025) 1px, transparent 1px),
+      linear-gradient(90deg, rgb(225 231 219 / 0.018) 1px, transparent 1px),
+      radial-gradient(circle at 50% -10%, rgb(185 201 197 / 0.12), transparent 36rem);
+    background-size: 36px 36px, 36px 36px, auto;
+  }
+
+  .atl-container {
+    width: min(1120px, calc(100vw - 2rem));
+    margin-inline: auto;
+  }
+
+  .atl-panel {
+    border: 1px solid var(--color-atl-border-soft);
+    border-radius: var(--radius-atl-xl);
+    background:
+      linear-gradient(180deg, rgb(225 231 219 / 0.055), transparent 40%),
+      linear-gradient(135deg, color-mix(in oklab, var(--color-atl-panel) 86%, black), var(--color-atl-bg-soft));
+    box-shadow: var(--shadow-atl-panel);
+  }
+
+  .atl-card {
+    border: 1px solid color-mix(in oklab, var(--color-atl-ridge) 70%, transparent);
+    border-radius: var(--radius-atl-lg);
+    background:
+      linear-gradient(180deg, rgb(225 231 219 / 0.04), rgb(5 9 19 / 0.16)),
+      color-mix(in oklab, var(--color-atl-panel) 88%, black);
+    box-shadow: inset 0 1px 0 rgb(225 231 219 / 0.06);
+  }
+
+  .atl-card-soft {
+    border: 1px solid color-mix(in oklab, var(--color-atl-smoke) 45%, transparent);
+    border-radius: var(--radius-atl-lg);
+    background: color-mix(in oklab, var(--color-atl-deep) 74%, transparent);
+  }
+
+  .atl-title {
+    font-family: var(--font-atl-display);
+    color: var(--color-atl-text);
+    letter-spacing: -0.045em;
+    line-height: 0.94;
+  }
+
+  .atl-eyebrow {
+    color: var(--color-atl-mist);
+    font-family: var(--font-atl-mono);
+    font-size: 0.75rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+  }
+
+  .atl-subtitle {
+    color: var(--color-atl-text-soft);
+    line-height: 1.6;
+  }
+
+  .atl-muted {
+    color: var(--color-atl-text-muted);
+  }
+
+  .atl-rule {
+    height: 1px;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      color-mix(in oklab, var(--color-atl-mist) 74%, transparent),
+      transparent
+    );
+  }
+
+  .atl-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    border: 1px solid color-mix(in oklab, var(--color-atl-silver) 64%, transparent);
+    border-radius: var(--radius-atl-md);
+    background:
+      linear-gradient(180deg, rgb(225 231 219 / 0.09), rgb(225 231 219 / 0.015)),
+      color-mix(in oklab, var(--color-atl-navy) 76%, black);
+    color: var(--color-atl-text);
+    font-weight: 650;
+    letter-spacing: 0.02em;
+    box-shadow: var(--shadow-atl-glow);
+    transition: transform 160ms ease, border-color 160ms ease, background 160ms ease;
+  }
+
+  .atl-button:hover {
+    transform: translateY(-1px);
+    border-color: var(--color-atl-archive);
+    background:
+      linear-gradient(180deg, rgb(225 231 219 / 0.13), rgb(225 231 219 / 0.025)),
+      color-mix(in oklab, var(--color-atl-bluegray) 46%, var(--color-atl-navy));
+  }
+
+  .atl-button-ghost {
+    border: 1px solid color-mix(in oklab, var(--color-atl-ridge) 70%, transparent);
+    border-radius: var(--radius-atl-md);
+    background: transparent;
+    color: var(--color-atl-text-soft);
+  }
+
+  .atl-tag {
+    display: inline-flex;
+    align-items: center;
+    border: 1px solid color-mix(in oklab, var(--color-atl-mist) 55%, transparent);
+    border-radius: 999px;
+    background: color-mix(in oklab, var(--color-atl-navy) 58%, transparent);
+    color: var(--color-atl-silver);
+    font-family: var(--font-atl-mono);
+    font-size: 0.72rem;
+    line-height: 1;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .atl-tag-verified {
+    border-color: color-mix(in oklab, var(--color-atl-success) 65%, transparent);
+    background: color-mix(in oklab, var(--color-atl-success) 22%, transparent);
+    color: color-mix(in oklab, var(--color-atl-success) 78%, white);
+  }
+
+  .atl-code {
+    overflow: auto;
+    border: 1px solid color-mix(in oklab, var(--color-atl-ridge) 70%, transparent);
+    border-radius: var(--radius-atl-lg);
+    background:
+      linear-gradient(180deg, rgb(225 231 219 / 0.035), transparent 26%),
+      color-mix(in oklab, var(--color-atl-void) 88%, var(--color-atl-navy));
+    color: var(--color-atl-silver);
+    font-family: var(--font-atl-mono);
+    font-size: 0.85rem;
+    line-height: 1.7;
+    box-shadow: inset 0 1px 0 rgb(225 231 219 / 0.06);
+  }
+
+  .atl-step {
+    position: relative;
+    border: 1px solid color-mix(in oklab, var(--color-atl-smoke) 48%, transparent);
+    border-radius: var(--radius-atl-lg);
+    background: color-mix(in oklab, var(--color-atl-panel) 68%, transparent);
+  }
+
+  .atl-step-active {
+    border-color: color-mix(in oklab, var(--color-atl-silver) 72%, transparent);
+    box-shadow: var(--shadow-atl-glow);
+  }
+
+  .atl-number {
+    display: inline-grid;
+    place-items: center;
+    width: 2.25rem;
+    height: 2.25rem;
+    border: 1px solid color-mix(in oklab, var(--color-atl-mist) 65%, transparent);
+    border-radius: 999px;
+    background: color-mix(in oklab, var(--color-atl-void) 64%, transparent);
+    color: var(--color-atl-archive);
+    font-family: var(--font-atl-mono);
+    font-size: 0.78rem;
+  }
+
+  .atl-stat {
+    border-left: 1px solid color-mix(in oklab, var(--color-atl-ridge) 62%, transparent);
+    padding-left: 1rem;
+  }
+
+  .atl-stat-value {
+    color: var(--color-atl-archive);
+    font-family: var(--font-atl-display);
+    font-size: clamp(2rem, 5vw, 4rem);
+    line-height: 0.95;
+    letter-spacing: -0.05em;
+  }
+
+  .atl-gradient-text {
+    background: linear-gradient(90deg, var(--color-atl-archive), var(--color-atl-silver), var(--color-atl-mist));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  .atl-ornament {
+    position: relative;
+    isolation: isolate;
+  }
+
+  .atl-ornament::before,
+  .atl-ornament::after {
+    content: "";
+    position: absolute;
+    pointer-events: none;
+    border-color: color-mix(in oklab, var(--color-atl-mist) 38%, transparent);
+  }
+
+  .atl-ornament::before {
+    inset: 0.75rem;
+    border-top: 1px solid;
+    border-bottom: 1px solid;
+    opacity: 0.54;
+  }
+
+  .atl-ornament::after {
+    inset: 0;
+    border: 1px solid;
+    border-radius: inherit;
+    opacity: 0.38;
+  }
+
+  .atl-maritime-wash {
+    background:
+      radial-gradient(circle at 18% 12%, rgb(185 201 197 / 0.11), transparent 24rem),
+      radial-gradient(circle at 85% 28%, rgb(98 119 134 / 0.14), transparent 28rem),
+      linear-gradient(180deg, var(--color-atl-deep), var(--color-atl-void));
+  }
+
+  .atl-starfield {
+    background-image:
+      radial-gradient(circle, rgb(225 231 219 / 0.72) 0 1px, transparent 1.35px),
+      radial-gradient(circle, rgb(185 201 197 / 0.38) 0 1px, transparent 1.6px),
+      radial-gradient(circle at 50% 0%, rgb(118 136 146 / 0.12), transparent 40rem);
+    background-size: 96px 96px, 152px 152px, auto;
+    background-position: 0 0, 23px 37px, center;
+  }
+
+  /* --- Shared blue-slate components (starter-pack contract) --- */
+
+  /* Tabs: atl-tabs (strip) / atl-tab (item) / atl-tab-active (modifier) */
+  .atl-tabs {
+    display: flex;
+    align-items: stretch;
+    gap: 2px;
+    padding: 0.35rem 0.5rem 0;
+    background: color-mix(in oklab, var(--color-atl-abyss) 55%, transparent);
+    border-bottom: 1px solid var(--color-atl-border-soft);
+    overflow-x: auto;
+    flex-shrink: 0;
+  }
+
+  .atl-tab {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.4rem 0.5rem 0.4rem 0.7rem;
+    border: 1px solid transparent;
+    border-bottom: none;
+    border-radius: var(--radius-atl-md) var(--radius-atl-md) 0 0;
+    background: transparent;
+    color: var(--color-atl-text-muted);
+    cursor: pointer;
+    max-width: 200px;
+    transition: background 140ms ease, color 140ms ease;
+  }
+
+  .atl-tab:hover {
+    color: var(--color-atl-text-soft);
+    background: color-mix(in oklab, var(--color-atl-navy) 35%, transparent);
+  }
+
+  .atl-tab-active {
+    color: var(--color-atl-text);
+    background: color-mix(in oklab, var(--color-atl-deep) 65%, transparent);
+    border-color: var(--color-atl-border-soft);
+  }
+
+  .atl-tab-label {
+    font-family: var(--font-atl-mono);
+    font-size: 0.78rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .atl-tab-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 999px;
+    background: var(--color-atl-warning);
+    flex-shrink: 0;
+  }
+
+  .atl-tab-close {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 18px;
+    height: 18px;
+    padding: 0;
+    border: none;
+    border-radius: var(--radius-atl-sm, 0.25rem);
+    background: transparent;
+    color: inherit;
+    font-size: 0.7rem;
+    line-height: 1;
+    cursor: pointer;
+    opacity: 0.6;
+    flex-shrink: 0;
+  }
+
+  .atl-tab-close:hover {
+    opacity: 1;
+    background: color-mix(in oklab, var(--color-atl-danger) 30%, transparent);
+  }
+
+  .atl-tab-add {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    align-self: center;
+    margin-left: 0.15rem;
+    border: none;
+    border-radius: var(--radius-atl-md);
+    background: transparent;
+    color: var(--color-atl-text-muted);
+    cursor: pointer;
+    font-size: 0.95rem;
+  }
+
+  .atl-tab-add:hover {
+    color: var(--color-atl-text-soft);
+    background: color-mix(in oklab, var(--color-atl-navy) 40%, transparent);
+  }
+
+  /* StatusChip: atl-status-chip + atl-status-chip-{active,warning,taxonomy,archive,verified,neutral} */
+  .atl-status-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-family: var(--font-atl-mono);
+    font-size: 0.72rem;
+    padding: 0.3rem 0.6rem;
+    border-radius: 999px;
+    border: 1px solid transparent;
+  }
+
+  .atl-status-chip-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 999px;
+    background: currentColor;
+  }
+
+  .atl-status-chip-active {
+    color: var(--color-atl-text-soft);
+    border-color: color-mix(in oklab, var(--color-atl-success) 45%, transparent);
+    background: color-mix(in oklab, var(--color-atl-success) 12%, transparent);
+  }
+
+  .atl-status-chip-active .atl-status-chip-dot {
+    color: var(--color-atl-success);
+  }
+
+  .atl-status-chip-warning {
+    color: var(--color-atl-text-soft);
+    border-color: color-mix(in oklab, var(--color-atl-warning) 55%, transparent);
+    background: color-mix(in oklab, var(--color-atl-warning) 14%, transparent);
+  }
+
+  .atl-status-chip-warning .atl-status-chip-dot {
+    color: var(--color-atl-warning);
+  }
+
+  .atl-status-chip-taxonomy {
+    color: var(--color-atl-silver);
+    border-color: color-mix(in oklab, var(--color-atl-mist) 55%, transparent);
+    background: color-mix(in oklab, var(--color-atl-navy) 45%, transparent);
+  }
+
+  .atl-status-chip-taxonomy .atl-status-chip-dot {
+    color: var(--color-atl-mist);
+  }
+
+  .atl-status-chip-archive {
+    color: var(--color-atl-text-muted);
+    border-color: color-mix(in oklab, var(--color-atl-smoke) 55%, transparent);
+    background: color-mix(in oklab, var(--color-atl-smoke) 14%, transparent);
+  }
+
+  .atl-status-chip-archive .atl-status-chip-dot {
+    color: var(--color-atl-smoke);
+  }
+
+  .atl-status-chip-verified {
+    color: color-mix(in oklab, var(--color-atl-success) 78%, white);
+    border-color: color-mix(in oklab, var(--color-atl-success) 65%, transparent);
+    background: color-mix(in oklab, var(--color-atl-success) 22%, transparent);
+  }
+
+  .atl-status-chip-verified .atl-status-chip-dot {
+    color: var(--color-atl-success);
+  }
+
+  .atl-status-chip-neutral {
+    color: var(--color-atl-text-muted);
+    border-color: color-mix(in oklab, var(--color-atl-ridge) 55%, transparent);
+    background: color-mix(in oklab, var(--color-atl-ridge) 14%, transparent);
+  }
+
+  .atl-status-chip-neutral .atl-status-chip-dot {
+    color: var(--color-atl-mist);
+  }
+
+  /* CommandBuilder: atl-form-field / atl-input / atl-checkbox-row / atl-command-output */
+  .atl-command-builder {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .atl-form-field {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+    font-size: 0.82rem;
+    color: var(--color-atl-text-soft);
+  }
+
+  .atl-input {
+    border: 1px solid color-mix(in oklab, var(--color-atl-ridge) 70%, transparent);
+    border-radius: var(--radius-atl-sm);
+    background: color-mix(in oklab, var(--color-atl-void) 70%, transparent);
+    color: var(--color-atl-text);
+    font-family: var(--font-atl-mono);
+    font-size: 0.85rem;
+    padding: 0.4rem 0.6rem;
+  }
+
+  .atl-input:focus {
+    outline: none;
+    border-color: var(--color-atl-mist);
+  }
+
+  .atl-checkbox-row {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.82rem;
+    color: var(--color-atl-text-soft);
+  }
+
+  .atl-command-output {
+    overflow: auto;
+    border: 1px solid color-mix(in oklab, var(--color-atl-ridge) 70%, transparent);
+    border-radius: var(--radius-atl-md);
+    background: color-mix(in oklab, var(--color-atl-void) 88%, var(--color-atl-navy));
+    color: var(--color-atl-silver);
+    font-family: var(--font-atl-mono);
+    font-size: 0.8rem;
+    padding: 0.6rem 0.8rem;
+    margin: 0;
+  }
+
+  /* EvidenceGrid: compact file/proof cards */
+  .atl-evidence-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 0.75rem;
+  }
+
+  .atl-evidence-card {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+    padding: 0.75rem;
+    border: 1px solid color-mix(in oklab, var(--color-atl-ridge) 60%, transparent);
+    border-radius: var(--radius-atl-md);
+    background: color-mix(in oklab, var(--color-atl-panel) 68%, transparent);
+  }
+
+  .atl-evidence-card-title {
+    color: var(--color-atl-text);
+    font-size: 0.88rem;
+    font-weight: 600;
+  }
+
+  .atl-evidence-card-meta {
+    color: var(--color-atl-text-muted);
+    font-family: var(--font-atl-mono);
+    font-size: 0.72rem;
+  }
+}
+
+@layer utilities {
+  .atl-text-balance { text-wrap: balance; }
+  .atl-text-pretty { text-wrap: pretty; }
+  .atl-border-glow { box-shadow: var(--shadow-atl-glow); }
+
+  .atl-grid-bg {
+    background-image:
+      linear-gradient(rgb(225 231 219 / 0.035) 1px, transparent 1px),
+      linear-gradient(90deg, rgb(225 231 219 / 0.026) 1px, transparent 1px);
+    background-size: 32px 32px;
+  }
+
+  .atl-markup-fade {
+    mask-image: linear-gradient(90deg, transparent, black 12%, black 88%, transparent);
+  }
+}

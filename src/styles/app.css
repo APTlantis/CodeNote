@@ -1,0 +1,464 @@
+/*
+  CodeNote app chrome.
+  Layout classes only — colors/fonts/radii all come from the atl-* tokens
+  defined in blue-slate.css (Aptlantis Blue-Slate). Shared blue-slate
+  components (tabs, status chip, code panel) keep their styles there too;
+  this file is strictly app-specific layout (rail, header, panes, drawer).
+*/
+
+html,
+body,
+#root {
+  height: 100%;
+  margin: 0;
+}
+
+.cn-app {
+  display: flex;
+  height: 100vh;
+  overflow: hidden;
+}
+
+/* Icon rail */
+.cn-rail {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.25rem;
+  width: 60px;
+  flex-shrink: 0;
+  padding: 0.75rem 0;
+  border-right: 1px solid var(--color-atl-border-soft);
+  background: color-mix(in oklab, var(--color-atl-abyss) 70%, transparent);
+}
+
+.cn-rail-logo {
+  width: 32px;
+  height: 32px;
+  border-radius: 999px;
+  object-fit: contain;
+  margin-bottom: 0.75rem;
+}
+
+.cn-rail-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: var(--radius-atl-md);
+  border: 1px solid transparent;
+  background: transparent;
+  color: var(--color-atl-text-muted);
+  cursor: pointer;
+  transition: background 140ms ease, color 140ms ease, border-color 140ms ease;
+}
+
+.cn-rail-btn:hover {
+  color: var(--color-atl-text-soft);
+  background: color-mix(in oklab, var(--color-atl-navy) 40%, transparent);
+}
+
+.cn-rail-btn.is-active {
+  color: var(--color-atl-archive);
+  background: color-mix(in oklab, var(--color-atl-navy) 60%, transparent);
+  border-color: color-mix(in oklab, var(--color-atl-mist) 55%, transparent);
+}
+
+.cn-rail-spacer {
+  flex: 1;
+}
+
+/* Main column */
+.cn-main {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-width: 0;
+}
+
+/* Tab strip: see styles/blue-slate.css for .atl-tabs/.atl-tab/.atl-tab-active
+   (moved there — tabs are a shared blue-slate component, not app-only chrome). */
+
+.cn-header {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.6rem 1rem;
+  border-bottom: 1px solid var(--color-atl-border-soft);
+  background: color-mix(in oklab, var(--color-atl-deep) 65%, transparent);
+  flex-shrink: 0;
+}
+
+.cn-header-title {
+  font-family: var(--font-atl-display);
+  font-size: 0.95rem;
+  color: var(--color-atl-text);
+  letter-spacing: -0.02em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.cn-header-path {
+  font-family: var(--font-atl-mono);
+  font-size: 0.72rem;
+  color: var(--color-atl-text-muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.cn-dirty-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 999px;
+  background: var(--color-atl-warning);
+  flex-shrink: 0;
+}
+
+.cn-header-spacer {
+  flex: 1;
+}
+
+/* Header status pill: see styles/blue-slate.css for .atl-status-chip
+   (StatusChip component, shared blue-slate contract). */
+
+/* Body: editor + preview split */
+.cn-body {
+  display: flex;
+  flex: 1;
+  min-height: 0;
+}
+
+.cn-pane {
+  flex: 1;
+  min-width: 0;
+  overflow: auto;
+  height: 100%;
+}
+
+.cn-pane + .cn-pane {
+  border-left: 1px solid var(--color-atl-border-soft);
+}
+
+.cn-editor-pane {
+  display: flex;
+  flex-direction: column;
+
+  /* Archival paper surface: warm off-white base + faint graph-paper grid,
+     same two-hairline-gradient technique as .atl-shell but inked for a
+     light ground instead of the app chrome's dark one. */
+  --paper-bg: #FAF9F5;
+  --paper-bg-gutter: #F1F0E9;
+  --paper-ink: #2A2A22;
+  --paper-ink-soft: #55564A;
+  --paper-muted: #8C8D74;
+  --paper-cursor: #2B4A63;
+  --paper-selection: rgba(43, 74, 99, 0.16);
+  --paper-active-line: rgba(43, 74, 99, 0.06);
+  --paper-border: rgba(42, 42, 34, 0.14);
+  --paper-grid: rgba(42, 42, 34, 0.05);
+}
+
+.cn-editor-pane .cm-editor {
+  flex: 1;
+  height: 100%;
+}
+
+.cn-preview-pane {
+  padding: 1.5rem 2rem;
+  color: var(--color-atl-text-soft);
+  line-height: 1.65;
+}
+
+.cn-preview-pane h1,
+.cn-preview-pane h2,
+.cn-preview-pane h3,
+.cn-preview-pane h4,
+.cn-preview-pane h5,
+.cn-preview-pane h6 {
+  font-family: var(--font-atl-display);
+  color: var(--color-atl-text);
+  letter-spacing: -0.02em;
+  font-weight: 650;
+  line-height: 1.25;
+  margin: 1.4em 0 0.6em;
+}
+
+.cn-preview-pane h1:first-child,
+.cn-preview-pane h2:first-child,
+.cn-preview-pane h3:first-child,
+.cn-preview-pane h4:first-child,
+.cn-preview-pane h5:first-child,
+.cn-preview-pane h6:first-child {
+  margin-top: 0;
+}
+
+.cn-preview-pane h1 {
+  font-size: 2rem;
+  padding-bottom: 0.35rem;
+  border-bottom: 1px solid var(--color-atl-border-soft);
+}
+
+.cn-preview-pane h2 {
+  font-size: 1.6rem;
+  padding-bottom: 0.3rem;
+  border-bottom: 1px solid color-mix(in oklab, var(--color-atl-ridge) 55%, transparent);
+}
+
+.cn-preview-pane h3 {
+  font-size: 1.3rem;
+}
+
+.cn-preview-pane h4 {
+  font-size: 1.1rem;
+}
+
+.cn-preview-pane h5 {
+  font-size: 1rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.cn-preview-pane h6 {
+  font-size: 0.9rem;
+  color: var(--color-atl-text-muted);
+}
+
+.cn-preview-pane p {
+  margin: 0 0 1rem;
+}
+
+.cn-preview-pane strong {
+  font-weight: 700;
+  color: var(--color-atl-text);
+}
+
+.cn-preview-pane em {
+  font-style: italic;
+}
+
+.cn-preview-pane ul,
+.cn-preview-pane ol {
+  margin: 0 0 1rem;
+  padding-left: 1.6rem;
+}
+
+.cn-preview-pane ul {
+  list-style: disc;
+}
+
+.cn-preview-pane ol {
+  list-style: decimal;
+}
+
+.cn-preview-pane ul ul,
+.cn-preview-pane ol ul {
+  list-style: circle;
+}
+
+.cn-preview-pane li {
+  margin: 0.25em 0;
+}
+
+.cn-preview-pane li > p {
+  margin: 0;
+}
+
+.cn-preview-pane a {
+  color: var(--color-atl-link);
+}
+
+.cn-preview-pane code {
+  font-family: var(--font-atl-mono);
+  font-size: 0.85rem;
+}
+
+.cn-preview-pane :not(pre) > code {
+  padding: 0.1rem 0.35rem;
+  border-radius: 0.3rem;
+  background: color-mix(in oklab, var(--color-atl-navy) 50%, transparent);
+}
+
+/* Fenced code blocks: highlighting itself comes from the vendored full
+   PrismJS bundle's Okaidia theme (src/vendor/prism.css) — that ships real
+   token colors so the old hand-rolled `.token.*` palette here is gone.
+   These rules just fold Prism's `.atl-code` (`pre[class*="language-"]`) and
+   its plugin chrome (toolbar, line-numbers, match-braces) into the
+   blue-slate frame instead of Okaidia's default gray card. */
+.cn-preview-pane pre.atl-code,
+.cn-preview-pane pre[class*="language-"] {
+  overflow: auto;
+  border: 1px solid color-mix(in oklab, var(--color-atl-ridge) 70%, transparent);
+  border-radius: var(--radius-atl-lg);
+  background: color-mix(in oklab, var(--color-atl-void) 90%, var(--color-atl-navy)) !important;
+  box-shadow: inset 0 1px 0 rgb(225 231 219 / 0.06);
+}
+
+.cn-preview-pane .token.comment,
+.cn-preview-pane .token.prolog,
+.cn-preview-pane .token.doctype,
+.cn-preview-pane .token.cdata {
+  font-style: italic;
+}
+
+/* Toolbar plugin (copy-to-clipboard, show-language) */
+.cn-preview-pane div.code-toolbar > .toolbar .toolbar-item > button,
+.cn-preview-pane div.code-toolbar > .toolbar .toolbar-item > span {
+  background: color-mix(in oklab, var(--color-atl-navy) 70%, black);
+  color: var(--color-atl-silver);
+  border: 1px solid color-mix(in oklab, var(--color-atl-ridge) 60%, transparent);
+  border-radius: var(--radius-atl-sm);
+  font-family: var(--font-atl-mono);
+  font-size: 0.7rem;
+}
+
+.cn-preview-pane div.code-toolbar > .toolbar .toolbar-item > button:hover {
+  background: color-mix(in oklab, var(--color-atl-bluegray) 46%, var(--color-atl-navy));
+  color: var(--color-atl-archive);
+}
+
+/* line-numbers plugin gutter */
+.cn-preview-pane pre.line-numbers .line-numbers-rows {
+  border-right-color: color-mix(in oklab, var(--color-atl-ridge) 60%, transparent);
+}
+
+.cn-preview-pane pre.line-numbers .line-numbers-rows > span:before {
+  color: var(--color-atl-smoke);
+}
+
+.cn-preview-pane table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+.cn-preview-pane th,
+.cn-preview-pane td {
+  border: 1px solid color-mix(in oklab, var(--color-atl-ridge) 60%, transparent);
+  padding: 0.4rem 0.6rem;
+  text-align: left;
+}
+
+.cn-mermaid {
+  display: flex;
+  justify-content: center;
+  padding: 1rem;
+  border: 1px solid color-mix(in oklab, var(--color-atl-ridge) 60%, transparent);
+  border-radius: var(--radius-atl-lg);
+  background: color-mix(in oklab, var(--color-atl-deep) 60%, transparent);
+}
+
+/* Failed mermaid renders keep the atl-code box (added unconditionally before
+   the render attempt) but get an error accent so a broken diagram reads as
+   "this errored" rather than as unstyled paragraph text. */
+.cn-preview-pane pre.cn-mermaid-error {
+  border-color: color-mix(in oklab, var(--color-atl-danger, #c04851) 70%, transparent);
+  background: color-mix(in oklab, var(--color-atl-danger, #c04851) 12%, var(--color-atl-void)) !important;
+  color: var(--color-atl-danger, #e08890);
+  font-family: var(--font-atl-mono);
+  font-size: 0.85rem;
+  white-space: pre-wrap;
+}
+
+.cn-preview-pane blockquote {
+  margin: 0 0 1rem;
+  padding: 0.2rem 1rem;
+  border-left: 3px solid var(--color-atl-ridge);
+  color: var(--color-atl-smoke);
+  font-style: italic;
+}
+
+.cn-preview-pane hr {
+  border: none;
+  border-top: 1px solid color-mix(in oklab, var(--color-atl-ridge) 60%, transparent);
+  margin: 1.5rem 0;
+}
+
+.cn-preview-pane img {
+  max-width: 100%;
+  border-radius: var(--radius-atl-md, 0.4rem);
+}
+
+.cn-preview-pane li:has(> input[type="checkbox"]) {
+  list-style: none;
+  margin-left: -1.4rem;
+}
+
+.cn-preview-pane input[type="checkbox"] {
+  appearance: none;
+  width: 0.9rem;
+  height: 0.9rem;
+  margin-right: 0.5rem;
+  border: 1px solid var(--color-atl-ridge);
+  border-radius: 0.25rem;
+  vertical-align: middle;
+  position: relative;
+  top: -0.1rem;
+  background: color-mix(in oklab, var(--color-atl-deep) 60%, transparent);
+}
+
+.cn-preview-pane input[type="checkbox"]:checked {
+  background: var(--color-atl-success);
+  border-color: var(--color-atl-success);
+}
+
+.cn-preview-pane input[type="checkbox"]:checked::after {
+  content: "";
+  position: absolute;
+  left: 0.25rem;
+  top: 0.05rem;
+  width: 0.2rem;
+  height: 0.45rem;
+  border: solid var(--color-atl-deep);
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+}
+
+.cn-preview-pane .footnotes {
+  margin-top: 2rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid color-mix(in oklab, var(--color-atl-ridge) 60%, transparent);
+  font-size: 0.85rem;
+  color: var(--color-atl-smoke);
+}
+
+/* Terminal drawer */
+.cn-drawer {
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  height: 320px;
+  border-top: 1px solid var(--color-atl-border-soft);
+  background: var(--color-atl-void);
+}
+
+.cn-drawer-header {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.4rem 0.75rem;
+  border-bottom: 1px solid var(--color-atl-border-soft);
+  background: color-mix(in oklab, var(--color-atl-abyss) 60%, transparent);
+  font-family: var(--font-atl-mono);
+  font-size: 0.72rem;
+  color: var(--color-atl-text-muted);
+}
+
+.cn-drawer-body {
+  flex: 1;
+  min-height: 0;
+}
+
+.cn-empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  height: 100%;
+  color: var(--color-atl-text-muted);
+  font-family: var(--font-atl-mono);
+  font-size: 0.85rem;
+  text-align: center;
+}
